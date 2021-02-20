@@ -37,7 +37,8 @@ COPY requirements.txt ./
 RUN pip3 install --no-cache-dir -r requirements.txt
 #
 COPY . .
+COPY webapp/* webapp/
 
 ENTRYPOINT [ "python3" ]
 
-CMD [ "app.py" ]
+CMD [ "webapp/app.py" ]
