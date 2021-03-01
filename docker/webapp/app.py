@@ -153,16 +153,10 @@ def page():
 
 if __name__ == "__main__":
     # Read configuration JSON
-
-    #create_app()
     with open('../config.json', 'r') as configFile:
         data = configFile.read()
-
     # Parse JSON file
     configs = json.loads(data)
-
     print (app.host)
     # run flask
-
 	app.run (host='0.0.0.0')
-    #socketio.run(app, host='0.0.0.0', debug=True)
