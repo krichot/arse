@@ -36,7 +36,7 @@ app.config['UPLOAD_FOLDER'] = '/uploads'
 app.config['UPLOAD_EXTENSIONS'] = ['.xlsx']
 app.config['SECRET_KEY'] = 'd2e82988-d9e7-40a1-89d0-1a9577be6ba6'
 app.config['DEBUG']=True
-app.config['HOST']='0.0.0.0'
+#app.config['HOST']='0.0.0.0'
 
 #Payload.max_decode_packets = 50
 #socketio = SocketIO(app, async_mode='eventlet', ping_timeout=5000, ping_interval=25000)
@@ -158,4 +158,4 @@ if __name__ == "__main__":
 	configs = json.loads(data)
 	print (app.host)
 	# run flask
-	app.run ()
+	app.run (host='0.0.0.0')
