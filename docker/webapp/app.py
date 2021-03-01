@@ -156,6 +156,6 @@ if __name__ == "__main__":
 	    data = configFile.read()
 	# Parse JSON file
 	configs = json.loads(data)
-	print (app.host)
+	#print (app.host)
 	# run flask
 	app.run (host="0.0.0.0")
