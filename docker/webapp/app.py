@@ -150,7 +150,6 @@ def help():
 def page():
     return render_template("socket.html", template_folder = "templates", async_mode=socketio.async_mode)
 
-
 if __name__ == "__main__":
     # Read configuration JSON
     with open('../config.json', 'r') as configFile:
