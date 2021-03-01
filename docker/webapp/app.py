@@ -159,4 +159,4 @@ if __name__ == "__main__":
     configs = json.loads(data)
     print (app.host)
     # run flask
-	app.run ()
+    app.run ()
