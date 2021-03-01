@@ -40,8 +40,8 @@ app.config['HOST']='0.0.0.0'
 
 #Payload.max_decode_packets = 50
 #socketio = SocketIO(app, async_mode='eventlet', ping_timeout=5000, ping_interval=25000)
-async_mode = None
-socketio = SocketIO(app, async_mode=async_mode)
+#async_mode = None
+#socketio = SocketIO(app, async_mode=async_mode)
 #socketio.init_app(app, cors_allowed_origins="*")
 #disconnected=None
 #app.host = '0.0.0.0'
@@ -150,6 +150,7 @@ def help():
 def page():
     return render_template("socket.html", template_folder = "templates", async_mode=socketio.async_mode)
 
+
 if __name__ == "__main__":
     # Read configuration JSON
 
@@ -160,6 +161,8 @@ if __name__ == "__main__":
     # Parse JSON file
     configs = json.loads(data)
 
-    #print (app.host)
+    print (app.host)
     # run flask
-    socketio.run(app, host='0.0.0.0', debug=True)
+
+	flask.run (app, host='0.0.0.0')
+    #socketio.run(app, host='0.0.0.0', debug=True)
