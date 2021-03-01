@@ -62,7 +62,7 @@ class sfdc_is_loaded_class(object):
 				return False
 
 def parse_calendar (fileName):
-    if fileName != None:
+	if fileName != None:
 
 		xtree = et.parse(fileName)
 		xroot = xtree.getroot()
