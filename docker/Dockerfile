@@ -41,4 +41,4 @@ COPY webapp/* webapp/
 
 ENTRYPOINT [ "python3" ]
 
-CMD [ "webapp/app1.py" ]
+CMD [ "webapp/app.py" ]

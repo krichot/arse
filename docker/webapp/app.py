@@ -150,27 +150,6 @@ def help():
 def page():
     return render_template("socket.html", template_folder = "templates", async_mode=socketio.async_mode)
 
-# WEBSOCKET section
-@socketio.on('message', namespace="/socket")
-def handle_message(data):
-    print('received message: ' + data)
-
-@socketio.on('my event', namespace="/socket")
-def test_message(message):
-    emit('my response', {'data': message['data']})
-
-@socketio.on('my broadcast event', namespace="/socket")
-def test_message(message):
-    emit('my response', {'data': message['data']}, broadcast=True)
-
-@socketio.on('connect', namespace="/socket")
-def test_connect():
-    emit('my response', {'data': 'Connected'})
-
-@socketio.on('disconnect', namespace="/socket")
-def test_disconnect():
-    print('Client disconnected')
-
 if __name__ == "__main__":
     # Read configuration JSON
 
