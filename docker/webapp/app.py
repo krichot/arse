@@ -41,11 +41,11 @@ app.config['DEBUG']=True
 #Payload.max_decode_packets = 50
 #socketio = SocketIO(app, async_mode='eventlet', ping_timeout=5000, ping_interval=25000)
 #async_mode = None
-#socketio = SocketIO(app, async_mode=async_mode)
-#socketio.init_app(app, cors_allowed_origins="*")
-#disconnected=None
-#app.host = '0.0.0.0'
-#app.debug = True
+socketio = SocketIO(app, async_mode=async_mode)
+socketio.init_app(app, cors_allowed_origins="*")
+disconnected=None
+app.host = '0.0.0.0'
+app.debug = True
 
 
 # Class for checking if SDFC was loaded (either Lighning or Classic)
@@ -158,4 +158,5 @@ if __name__ == "__main__":
 	configs = json.loads(data)
 	#print (app.host)
 	# run flask
-	app.run (host="0.0.0.0")
+	#app.run (host="0.0.0.0")
+	socketio.run(app)
