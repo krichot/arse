@@ -2,7 +2,7 @@
 #build container
 
 MAJOR=1
-MINOR=1.3
+MINOR=3
 
 cp ../arse.py .
 cp ../config.json .
