@@ -64,98 +64,98 @@ class sfdc_is_loaded_class(object):
 def parse_calendar (fileName):
     if fileName != None:
 
-    	xtree = et.parse(fileName)
-    	xroot = xtree.getroot()
+		xtree = et.parse(fileName)
+		xroot = xtree.getroot()
 
-    	data = []
+		data = []
 
-    	for node in xroot.iter('appointment'):
+		for node in xroot.iter('appointment'):
 
-    		activity = ''
-    		activityType = ''
-    		related_object = ''
-    		related_to = ''
+			activity = ''
+			activityType = ''
+			related_object = ''
+			related_to = ''
 
-    		try:
-    			summary = node.find('OPFCalendarEventCopySummary').text.strip()
-    		except AttributeError:
-    			summary = ''
+			try:
+				summary = node.find('OPFCalendarEventCopySummary').text.strip()
+			except AttributeError:
+				summary = ''
 
-    		start = pd.to_datetime(node.find('OPFCalendarEventCopyStartTime').text)
-    		end = pd.to_datetime(node.find('OPFCalendarEventCopyEndTime').text)
+			start = pd.to_datetime(node.find('OPFCalendarEventCopyStartTime').text)
+			end = pd.to_datetime(node.find('OPFCalendarEventCopyEndTime').text)
 
-    		try:
-    			description = node.find('OPFCalendarEventCopyDescriptionPlain').text
-    		except AttributeError:
-    			description = ''
+			try:
+				description = node.find('OPFCalendarEventCopyDescriptionPlain').text
+			except AttributeError:
+				description = ''
 
-    		# Calculate the duration and round to half hours
-    		duration = round(((end - start).total_seconds() / 3600) * 2) / 2
+			# Calculate the duration and round to half hours
+			duration = round(((end - start).total_seconds() / 3600) * 2) / 2
 
-    		if description:
-    			# Sanitize input for RegEx
-    			description = description.replace("\u2028", "")
+			if description:
+				# Sanitize input for RegEx
+				description = description.replace("\u2028", "")
 
-    			matches = re.match(r"^#(e|i):(\w+):(Account|Opportunity):(.+)#$", description, re.MULTILINE)
-    			if matches:
-    				if matches.groups()[0] == "e":
-    					activity = "EMEA SE Activity"
-    				elif matches.groups()[0] == "i":
-    					activity = "SE Internal Activity"
-    				activityType = matches.groups()[1]
-    				related_object = matches.groups()[2]
-    				related_to = matches.groups()[3]
+				matches = re.match(r"^#(e|i):(\w+):(Account|Opportunity):(.+)#$", description, re.MULTILINE)
+				if matches:
+					if matches.groups()[0] == "e":
+						activity = "EMEA SE Activity"
+					elif matches.groups()[0] == "i":
+						activity = "SE Internal Activity"
+					activityType = matches.groups()[1]
+					related_object = matches.groups()[2]
+					related_to = matches.groups()[3]
 
-    		# Skip items before selected date
-    		if args.limit_start:
-    			limitStart = pd.to_datetime(args.limit_start)
-    			if (start <= limitStart):
-    				continue
+			# Skip items before selected date
+			if args.limit_start:
+				limitStart = pd.to_datetime(args.limit_start)
+				if (start <= limitStart):
+					continue
 
-    		# Skip items after selected date
-    		if args.limit_end:
-    			limitEnd = pd.to_datetime(args.limit_end)
-    			if (start >= limitEnd):
-    				continue
+			# Skip items after selected date
+			if args.limit_end:
+				limitEnd = pd.to_datetime(args.limit_end)
+				if (start >= limitEnd):
+					continue
 
-    		data.append([start, activity, activityType, summary, duration, related_object, related_to, 'Completed'])
+			data.append([start, activity, activityType, summary, duration, related_object, related_to, 'Completed'])
 
-    	df = pd.DataFrame(data, columns = ['date', 'activity', 'type', 'subject', 'hours', 'related_object', 'related_to', 'status'])
+		df = pd.DataFrame(data, columns = ['date', 'activity', 'type', 'subject', 'hours', 'related_object', 'related_to', 'status'])
 
-    	df.to_excel(session['username'] + '-input.xlsx', index=False)
+		df.to_excel(session['username'] + '-input.xlsx', index=False)
 
 @app.route("/")
 def home():
-    return render_template("index.html", template_folder = "templates", config=configs)
+	return render_template("index.html", template_folder = "templates", config=configs)
 
 @app.route('/uploader', methods=['POST'])
 def upload_file():
-    f = request.files['file']
-    session['username'] = request.form.get("login")
-    session['password'] = request.form.get("password")
+	f = request.files['file']
+	session['username'] = request.form.get("login")
+	session['password'] = request.form.get("password")
 
-    fName = session['username'] + '-' + f.filename
-    session['filename'] = fName
+	fName = session['username'] + '-' + f.filename
+	session['filename'] = fName
 
-    f.save(secure_filename(fName))
-    parse_calendar(fName)
+	f.save(secure_filename(fName))
+	parse_calendar(fName)
 
-    return 'file ' + fName + ' uploaded successfully for user ' + request.form.get("login")
+	return 'file ' + fName + ' uploaded successfully for user ' + request.form.get("login")
 
 @app.route("/settings")
 def help():
-    return render_template("settings.html", template_folder = "templates", config=configs)
+	return render_template("settings.html", template_folder = "templates", config=configs)
 
 @app.route("/test")
 def page():
-    return render_template("socket.html", template_folder = "templates", async_mode=socketio.async_mode)
+	return render_template("socket.html", template_folder = "templates", async_mode=socketio.async_mode)
 
 if __name__ == "__main__":
-    # Read configuration JSON
-    with open('../config.json', 'r') as configFile:
-        data = configFile.read()
-    # Parse JSON file
-    configs = json.loads(data)
-    print (app.host)
-    # run flask
-    app.run ()
+	# Read configuration JSON
+	with open('../config.json', 'r') as configFile:
+	    data = configFile.read()
+	# Parse JSON file
+	configs = json.loads(data)
+	print (app.host)
+	# run flask
+	app.run ()
