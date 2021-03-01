@@ -41,7 +41,8 @@ app.config['DEBUG']=True
 #Payload.max_decode_packets = 50
 #socketio = SocketIO(app, async_mode='eventlet', ping_timeout=5000, ping_interval=25000)
 #async_mode = None
-socketio = SocketIO(app, async_mode=async_mode)
+#socketio = SocketIO(app, async_mode=async_mode)
+socketio = SocketIO(app)
 socketio.init_app(app, cors_allowed_origins="*")
 disconnected=None
 app.host = '0.0.0.0'
