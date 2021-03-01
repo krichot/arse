@@ -138,7 +138,7 @@ def upload_file():
 	session['filename'] = fName
 
 	f.save(secure_filename(fName))
-	parse_calendar(fName)
+	#parse_calendar(fName)
 
 	return 'file ' + fName + ' uploaded successfully for user ' + request.form.get("login")
 
