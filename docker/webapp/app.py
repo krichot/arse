@@ -65,7 +65,7 @@ class sfdc_is_loaded_class(object):
 def parse_calendar (fileName, username, password):
 	if fileName != None:
 
-		print ("Parsing file %s for user %" % (fileName, username))
+		print ("Parsing file %s for user %s" % (fileName, username))
 
 		xtree = et.parse(fileName)
 		xroot = xtree.getroot()
