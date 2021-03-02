@@ -42,9 +42,9 @@ app.config['DEBUG']=True
 #socketio = SocketIO(app, async_mode='eventlet', ping_timeout=5000, ping_interval=25000)
 #async_mode = None
 #socketio = SocketIO(app, async_mode=async_mode)
-socketio = SocketIO(app)
-socketio.init_app(app, cors_allowed_origins="*")
-disconnected=None
+#socketio = SocketIO(app)
+#socketio.init_app(app, cors_allowed_origins="*")
+#disconnected=None
 app.host = '0.0.0.0'
 app.debug = True
 
@@ -159,5 +159,5 @@ if __name__ == "__main__":
 	configs = json.loads(data)
 	#print (app.host)
 	# run flask
-	#app.run (host="0.0.0.0")
-	socketio.run(app)
+	app.run (host="0.0.0.0")
+	#socketio.run(app)
