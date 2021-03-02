@@ -6,10 +6,11 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>    
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <title>A.R.S.E {{ config['version'] }} help</title>
   </head>
   <body>
+    <div class="container">
     <h1>A.R.S.E {{ config['version'] }} Help Page</h1>
     <a href="/" title="main menu">home</a>&nbsp;|&nbsp;
     <a href="test" title="socket">socket</a>
@@ -22,5 +23,6 @@
     <li>decimal separator: {{ config['decimal_separator'] }}</li>
     <li>worker address: {{ config['worker'] }}</li>
     <li>version: {{ config['version'] }}</li>
+    </div>
   </body>
 </html>
