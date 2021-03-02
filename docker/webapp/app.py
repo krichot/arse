@@ -67,8 +67,8 @@ def parse_calendar (fileName, username, password):
 
 		print ("Parsing file %s for user %s" % (fileName, username))
 
-		parser = et.XMLParser(encoding="utf-8")
-		xtree = et.parse(fileName, parser)
+		#parser = et.XMLParser(encoding="utf-8")
+		xtree = et.parse(fileName)
 		xroot = xtree.getroot()
 
 		data = []
@@ -135,6 +135,8 @@ def home():
 @app.route('/uploader', methods=['POST'])
 def upload_file():
 	f = request.files['file']
+	xls_data = pd.read_excel(f)
+
 	session['username'] = request.form.get("login")
 	session['password'] = request.form.get("password")
 
@@ -144,6 +146,7 @@ def upload_file():
 	f.save(secure_filename(fName))
 	parse_calendar(fName, session['username'], session['password'])
 
+	return xls_data.to_html()
 	return 'file ' + fName + ' uploaded successfully for user ' + request.form.get("login")
 
 @app.route("/settings")
