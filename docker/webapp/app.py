@@ -67,7 +67,8 @@ def parse_calendar (fileName, username, password):
 
 		print ("Parsing file %s for user %s" % (fileName, username))
 
-		xtree = et.parse(fileName)
+		parser = ET.XMLParser(encoding="utf-8")
+		xtree = et.parse(fileName, parser)
 		xroot = xtree.getroot()
 
 		data = []
