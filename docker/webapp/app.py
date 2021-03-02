@@ -75,10 +75,10 @@ def upload_file():
 	session['username'] = request.form.get("login")
 	session['password'] = request.form.get("password")
 
-	fName = session['username'] + '-' + f.filename
-	session['filename'] = fName
+	#fName = session['username'] + '-' + f.filename
+	#session['filename'] = fName
 
-	f.save(secure_filename(fName))
+	#f.save(secure_filename(fName))
 	#parse_calendar(fName, session['username'], session['password'])
 
 	# Open Firefox and start login to SFDC
@@ -99,9 +99,9 @@ def upload_file():
 	wait.until(EC.presence_of_element_located((By.ID, "username")))
 
 	usernameField = browser.find_element_by_id("username")
-	usernameField.send_keys(username)
+	usernameField.send_keys(session['username'])
 	passwordField = browser.find_element_by_id("password")
-	passwordField.send_keys(password)
+	passwordField.send_keys(session['password'])
 
 	signInButton = browser.find_element_by_id("signIn")
 	signInButton.click()
