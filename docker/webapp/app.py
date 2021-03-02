@@ -62,8 +62,10 @@ class sfdc_is_loaded_class(object):
 			else:
 				return False
 
-def parse_calendar (fileName):
+def parse_calendar (fileName, username, password):
 	if fileName != None:
+
+		print ("Parsing file %s for user %" % (fileName, username))
 
 		xtree = et.parse(fileName)
 		xroot = xtree.getroot()
@@ -139,7 +141,7 @@ def upload_file():
 	session['filename'] = fName
 
 	f.save(secure_filename(fName))
-	#parse_calendar(fName)
+	parse_calendar(fName, session['username'])
 
 	return 'file ' + fName + ' uploaded successfully for user ' + request.form.get("login")
 
