@@ -70,7 +70,7 @@ def home():
 @app.route('/uploader', methods=['POST'])
 def upload_file():
 	f = request.files['file']
-	xls_data = pd.read_excel(f)
+	df = pd.read_excel(f)
 
 	session['username'] = request.form.get("login")
 	session['password'] = request.form.get("password")
@@ -230,7 +230,7 @@ def upload_file():
 		else:
 			print("Item cannot be logged due to invalid value of field 'activity'")
 
-	return xls_data.to_html()
+	return df.to_html()
 
 	return 'file ' + fName + ' uploaded successfully for user ' + request.form.get("login")
 
