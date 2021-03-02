@@ -62,72 +62,6 @@ class sfdc_is_loaded_class(object):
 			else:
 				return False
 
-def parse_calendar (fileName, username, password):
-	if fileName != None:
-
-		print ("Parsing file %s for user %s" % (fileName, username))
-
-		#parser = et.XMLParser(encoding="utf-8")
-		xtree = et.parse(fileName)
-		xroot = xtree.getroot()
-
-		data = []
-
-		for node in xroot.iter('appointment'):
-
-			activity = ''
-			activityType = ''
-			related_object = ''
-			related_to = ''
-
-			try:
-				summary = node.find('OPFCalendarEventCopySummary').text.strip()
-			except AttributeError:
-				summary = ''
-
-			start = pd.to_datetime(node.find('OPFCalendarEventCopyStartTime').text)
-			end = pd.to_datetime(node.find('OPFCalendarEventCopyEndTime').text)
-
-			try:
-				description = node.find('OPFCalendarEventCopyDescriptionPlain').text
-			except AttributeError:
-				description = ''
-
-			# Calculate the duration and round to half hours
-			duration = round(((end - start).total_seconds() / 3600) * 2) / 2
-
-			if description:
-				# Sanitize input for RegEx
-				description = description.replace("\u2028", "")
-
-				matches = re.match(r"^#(e|i):(\w+):(Account|Opportunity):(.+)#$", description, re.MULTILINE)
-				if matches:
-					if matches.groups()[0] == "e":
-						activity = "EMEA SE Activity"
-					elif matches.groups()[0] == "i":
-						activity = "SE Internal Activity"
-					activityType = matches.groups()[1]
-					related_object = matches.groups()[2]
-					related_to = matches.groups()[3]
-
-			# Skip items before selected date
-			if args.limit_start:
-				limitStart = pd.to_datetime(args.limit_start)
-				if (start <= limitStart):
-					continue
-
-			# Skip items after selected date
-			if args.limit_end:
-				limitEnd = pd.to_datetime(args.limit_end)
-				if (start >= limitEnd):
-					continue
-
-			data.append([start, activity, activityType, summary, duration, related_object, related_to, 'Completed'])
-
-		df = pd.DataFrame(data, columns = ['date', 'activity', 'type', 'subject', 'hours', 'related_object', 'related_to', 'status'])
-
-		df.to_excel(session['username'] + '-input.xlsx', index=False)
-
 @app.route("/")
 def home():
 	return render_template("index.html", template_folder = "templates", config=configs)
@@ -146,7 +80,8 @@ def upload_file():
 	f.save(secure_filename(fName))
 	#parse_calendar(fName, session['username'], session['password'])
 
-	return xls_data.to_html()
+	return xls_data
+
 	return 'file ' + fName + ' uploaded successfully for user ' + request.form.get("login")
 
 @app.route("/settings")
