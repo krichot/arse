@@ -144,7 +144,7 @@ def upload_file():
 	session['filename'] = fName
 
 	f.save(secure_filename(fName))
-	parse_calendar(fName, session['username'], session['password'])
+	#parse_calendar(fName, session['username'], session['password'])
 
 	return xls_data.to_html()
 	return 'file ' + fName + ' uploaded successfully for user ' + request.form.get("login")
